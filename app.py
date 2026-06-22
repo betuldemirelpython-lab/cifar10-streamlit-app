@@ -19,11 +19,12 @@ class_names = get_class_names()
 # Load model with caching
 @st.cache_resource
 def load_model():
-    model_path = pathlib.Path('model') / 'cifar10_cnn.keras'
+    model_path = pathlib.Path('model') / 'cifar10_cnn.h5'
     if not model_path.is_file():
         st.error("Model bulunamadı. Önce train.py çalıştırın: python train.py")
         st.stop()
-    return tf.keras.models.load_model(str(model_path))
+    # compile=False avoids loading optimizer state which can cause version mismatches
+    return tf.keras.models.load_model(str(model_path), compile=False)
 
 model = load_model()
 
